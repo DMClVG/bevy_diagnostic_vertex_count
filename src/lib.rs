@@ -34,27 +34,20 @@ impl VertexCountDiagnosticsPlugin {
 
     pub fn diagnostic_system(
         meshes: Res<Assets<Mesh>>,
-        meshed_entities: Query<(&Handle<Mesh>, Option<&Visibility>)>,
+        meshed_entities: Query<(&Handle<Mesh>, Option<&ComputedVisibility>)>,
         diagnostics: Option<ResMut<Diagnostics>>,
         settings: Res<VertexCountDiagnosticsSettings>,
     ) {
         if let Some(mut diagnostics) = diagnostics {
             let vertex_count: usize = meshed_entities
                 .iter()
-                .map(|(mesh, visibility)| {
-                    if let Some(mesh) = meshes.get(mesh) {
-                        if !(settings.only_visible
-                            && visibility.is_some()
-                            && !visibility.unwrap().is_visible)
-                        {
-                            mesh.count_vertices()
-                        } else {
-                            0
-                        }
-                    } else {
-                        0
-                    }
+                .filter(|(_, visibility)| {
+                    !settings.only_visible
+                        || visibility.map_or(false, |v| v.is_visible_in_hierarchy())
                 })
+                .map(|(mesh, _)| meshes.get(mesh))
+                .flatten()
+                .map(|mesh| mesh.count_vertices())
                 .sum();
 
             diagnostics.add_measurement(Self::VERTEX_COUNT, || vertex_count as f64);
