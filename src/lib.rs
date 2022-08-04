@@ -57,7 +57,7 @@ impl VertexCountDiagnosticsPlugin {
                 })
                 .sum();
 
-            diagnostics.add_measurement(Self::VERTEX_COUNT, vertex_count as f64);
+            diagnostics.add_measurement(Self::VERTEX_COUNT, || vertex_count as f64);
         }
     }
 }
