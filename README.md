@@ -21,5 +21,12 @@ fn main() {
 }
 ```
 
+# VERSIONS
+
+| bevy_diagnostic_vertex_count | bevy |
+|------------------------------|------|
+| 0.2                          | 0.8  |
+| 0.1                          | 0.7  |
+
 # LICENSE
 Dual-licensed under APACHE-2.0 or MIT

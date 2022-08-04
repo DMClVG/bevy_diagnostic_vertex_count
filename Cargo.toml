@@ -1,6 +1,6 @@
 [package]
 name = "bevy_diagnostic_vertex_count"
-version = "0.1.0"
+version = "0.2.0"
 description = "Bevy diagnostics plugin for counting vertices of all present meshes in a world"
 authors = ["DMClVG"]
 license = "Apache-2.0 OR MIT"
